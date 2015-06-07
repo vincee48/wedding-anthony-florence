@@ -20,4 +20,4 @@ grunt test
 grunt build
 
 # Finally...
-Congratulations to my lovely friends, Anthony and Florence Tow!
+Congratulations to my lovely friends, Anthony and Florence!
