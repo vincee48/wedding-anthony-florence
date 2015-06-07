@@ -1,0 +1,104 @@
+@import '../vendor/elements';
+@import '../colours';
+
+.MessageAlert {
+    width: 100%;
+    min-height: 100%;
+    position: fixed;
+    background-color: @dark-text-colour;
+    transition:all 0.3s ease;
+    display: none;
+    z-index: 1000;
+
+    &.fade-in {
+        .opacity(0.8);
+        display: block;
+    }
+    &.fade-out {
+        .opacity(0);
+    }
+}
+
+.msg-box {
+    transition:all 0.3s ease;
+    padding: 1em 2em 2em 2em;
+    margin: 0 auto;
+    background-color: @dark-main-colour;
+    width: 40em;
+    text-align: center;
+    position: fixed;
+    top: 35%;
+    left: 35%;
+    z-index: 2000;
+    .rounded(5px);
+    display: none;
+
+    &.opened {
+        .scale(1.0);
+        display: block;
+    }
+    &.closed {
+        .scale(0);
+    }
+}
+
+.loading {
+    padding: 1em 2em 2em 2em;
+    margin: 0 auto;
+    width: 50%;
+    text-align: center;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    .translate(-50%, -50%);
+    z-index: 2000;
+    span {
+        display: inline-block;
+        vertical-align: middle;
+        width: 10px;
+        height: 10px;
+        margin: 50px auto;
+        background: @main-colour;
+        border-radius: 50px;
+        -webkit-animation: loader 0.9s infinite alternate;
+        -moz-animation: loader 0.9s infinite alternate;
+        margin: 1em;
+        &:nth-of-type(2) {
+            -webkit-animation-delay: 0.3s;
+            -moz-animation-delay: 0.3s;
+        }
+        &:nth-of-type(3) {
+            -webkit-animation-delay: 0.6s;
+            -moz-animation-delay: 0.6s;
+        }
+    }
+
+    @-webkit-keyframes loader {
+        0% {
+            width: 10px;
+            height: 10px;
+            opacity: 0.9;
+            -webkit-transform: translateY(0);
+        }
+        100% {
+            width: 24px;
+            height: 24px;
+            opacity: 0.3;
+            -webkit-transform: translateY(-21px);
+        }
+    }
+    @-moz-keyframes loader {
+        0% {
+            width: 10px;
+            height: 10px;
+            opacity: 0.9;
+            -moz-transform: translateY(0);
+        }
+        100% {
+            width: 24px;
+            height: 24px;
+            opacity: 0.3;
+            -moz-transform: translateY(-21px);
+        }
+    }
+}

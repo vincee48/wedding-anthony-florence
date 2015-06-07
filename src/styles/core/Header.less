@@ -1,0 +1,32 @@
+@import "../vendor/elements.less";
+@import "../colours.less";
+
+.Header {
+    color: @dark-text-colour;
+    text-align: center;
+    .drop-shadow(0, 0, 2px, 0.2);
+    .nav {
+        font-size: 1.1em;
+        font-weight: 500;
+        font-family: 'Noto Sans', 'Helvetica', 'Sans-serif';
+        background: @dark-main-colour;
+        ul {
+            margin: 0;
+            padding: 0;
+            li {
+                display: inline-block;
+                margin: 0;
+                a {
+                    padding: 1em;
+                    display: block;
+                    text-decoration: none;
+                    color: @dark-text-colour;
+                    &:hover {
+                        background: @hover-colour;
+                        color: #111;
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,35 @@
+@import '../colours.less';
+@import '../vendor/elements.less';
+
+.Home {
+    .logo {
+        .logo-text {
+            //border: 2px solid @dark-text-colour;
+            //padding: 0.3em 0.5em;
+            color: #333;
+            line-height: 1.5em;
+            font-weight: 500;
+        }
+    }
+    .spacing {
+        padding: 1em;
+    }
+    .bg-teal {
+        background-color: @main-colour;
+    }
+    .large-padding {
+        padding: 4em;
+    }
+    .image-list {
+        overflow: hidden;
+        @media (min-width: 320px) {
+            .columns(100%, 1, 1em, #fff, none, 0);
+        }
+        @media (min-width: 768px) {
+            .columns(33%, 2, 1em, #fff, none, 0);
+        }
+        @media (min-width: 1224px) {
+            .columns(20%, 3, 1em, #fff, none, 0);
+        }
+    }
+}
