@@ -41,8 +41,10 @@ var PaginatedTable = React.createClass({
             display = data.map(function(rec) {
                 return (<tr key={rec.id}>
                     <td>{ rec.name }</td>
-                    <td>{ rec.email }</td>
+                    <td>{ rec.guest }</td>
+                    <td>{ rec.code }</td>
                     <td>{ rec.attendees }</td>
+                    <td>{ rec.email }</td>
                     <td>{ rec.responded ? 'Yes' : 'No' }</td>
                 </tr>);
             });
@@ -53,7 +55,7 @@ var PaginatedTable = React.createClass({
 
                 <table className="table table-striped table-bordered">
                     <thead>
-                        <tr><th>Name</th><th>Email</th><th>Attendees</th><th>Responded</th></tr>
+                        <tr><th>Name</th><th>Guest</th><th>Code</th><th>Additional Guests</th><th>Email</th><th>Responded</th></tr>
                     </thead>
 
                     <tbody>

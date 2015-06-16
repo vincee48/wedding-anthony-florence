@@ -15,19 +15,19 @@ var Invitation = React.createClass({
 
     getInitialState: function() {
         return {
-            invitationName: ''
+            invitationCode: ''
         };
     },
 
     onSubmit: function(e) {
         e.preventDefault();
 
-        this.props.onSubmit(this.state.invitationName);
+        this.props.onSubmit(this.state.invitationCode);
     },
 
-    changeInvitationName: function(e) {
+    changeInvitationCode: function(e) {
         this.setState({
-            invitationName: e.target.value
+            invitationCode: e.target.value
         });
     },
     render: function () {
@@ -35,10 +35,10 @@ var Invitation = React.createClass({
         return (
             <div className="Invitation">
                 <TransitionWrapper>
-                    <h1>Enter the name on your invitation</h1>
+                    <h1>Enter the code on your invitation</h1>
                     <hr/>
                     <form onSubmit={this.onSubmit} className='form-horizontal'>
-                        <FormText validate={{required: true}} fullwidth={true} label="" onChange={this.changeInvitationName} value={this.state.invitationName} placeholder="e.g. John Smith" id="invitationName" />
+                        <FormText validate={{required: true}} fullwidth={true} label="" onChange={this.changeInvitationCode} value={this.state.invitationCode} placeholder="e.g. John Smith" id="invitationCode" />
 
                         <button type="submit" className="btn btn-lg btn-primary">
                             <span className="glyphicon glyphicon-search"></span> Find Invitation

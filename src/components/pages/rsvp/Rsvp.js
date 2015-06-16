@@ -46,9 +46,9 @@ var Rsvp = React.createClass({
         MessageAlertStore.showLoadingMessage();
         InvitationAction.update(invitation);
     },
-    onInvitationSubmit: function(invitationName) {
+    onInvitationSubmit: function(invitationCode) {
         MessageAlertStore.showLoadingMessage();
-        InvitationAction.get(invitationName);
+        InvitationAction.get(invitationCode);
     },
     render: function () {
 

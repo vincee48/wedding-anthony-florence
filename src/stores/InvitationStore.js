@@ -17,7 +17,9 @@ var InvitationStore = Reflux.createStore({
         var invite = new InvitationObject();
 
         invite.save({
-            name: invitation.name
+            code: invitation.code,
+            name: invitation.name,
+            guest: invitation.guest
         }, {
             success: function(inv) {
                 handler(false, 'Invitation has been successfully created.');
@@ -32,12 +34,14 @@ var InvitationStore = Reflux.createStore({
         var invite = new InvitationObject();
 
         invite.set('id', invitation.id);
+        invite.set('guest', invitation.guest);
         invite.set('email', invitation.email);
         invite.set('dietaryReq', invitation.dietaryReq);
         invite.set('attendees', invitation.attendees);
         invite.set('specialNeeds', invitation.specialNeeds);
         invite.set('responded', invitation.responded);
-
+        invite.set('attending', invitation.attending);
+        invite.set('guestAttending', invitation.guestAttending);
         invite.save(null, {
             success: function(invite) {
                 MessageAlertStore.handleMessage('Thank you! Your invitation has been updated!');
@@ -48,15 +52,15 @@ var InvitationStore = Reflux.createStore({
         });
     },
 
-    onGet: function(name) {
+    onGet: function(code) {
         var query = new Parse.Query(InvitationObject);
-        query.equalTo('name', name).find({
+        query.equalTo('code', code).find({
             success: function(results) {
                 if (results.length !== 0) {
                     MessageAlertStore.closeMessage();
                     Action.get(results[0]);
                 } else {
-                    MessageAlertStore.handleMessage('We could not found the invitation for ' + name + '. Please try again.');
+                    MessageAlertStore.handleMessage('We could not found the invitation for ' + code + '. Please try again.');
                 }
             },
             error: function(results, error) {
