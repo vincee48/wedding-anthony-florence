@@ -20,6 +20,10 @@ var PaginatedTable = React.createClass({
             this.setState({currentPage: parseInt(e.target.id)});
         }
     },
+    removeRecord: function(e) {
+        e.preventDefault();
+        this.props.onRemove(e.target.id);
+    },
     render: function () {
 
         var numPages = Math.ceil(this.props.records.length / this.state.recordsPerPage);
@@ -36,18 +40,19 @@ var PaginatedTable = React.createClass({
 
         var disablePrev = this.state.currentPage === 1;
 
-        var display;
+        var display = [];
         if (this.props.records.length > 0) {
-            display = data.map(function(rec) {
-                return (<tr key={rec.id}>
-                    <td>{ rec.name }</td>
-                    <td>{ rec.guest }</td>
-                    <td>{ rec.code }</td>
-                    <td>{ rec.attendees }</td>
-                    <td>{ rec.email }</td>
-                    <td>{ rec.responded ? 'Yes' : 'No' }</td>
+            for (var k = 0; k < this.props.records.length; k++) {
+                display.push(<tr key={this.props.records[k].id}>
+                    <td>{ this.props.records[k].name }</td>
+                    <td>{ this.props.records[k].guest }</td>
+                    <td>{ this.props.records[k].code }</td>
+                    <td>{ this.props.records[k].attendees }</td>
+                    <td>{ this.props.records[k].email }</td>
+                    <td>{ this.props.records[k].responded ? 'Yes' : 'No' }</td>
+                    <td><button type="button" className="btn btn-xs btn-danger" id={this.props.records[k].id.objectId} onClick={this.removeRecord}>Remove</button></td>
                 </tr>);
-            });
+            }
         }
 
         return (
@@ -55,7 +60,7 @@ var PaginatedTable = React.createClass({
 
                 <table className="table table-striped table-bordered">
                     <thead>
-                        <tr><th>Name</th><th>Guest</th><th>Code</th><th>Additional Guests</th><th>Email</th><th>Responded</th></tr>
+                        <tr><th>Name</th><th>Guest</th><th>Code</th><th>Additional Guests</th><th>Email</th><th>Responded</th><th>Remove</th></tr>
                     </thead>
 
                     <tbody>

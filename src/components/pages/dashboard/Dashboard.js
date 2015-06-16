@@ -56,9 +56,14 @@ var Dashboard = React.createClass({
 
         if (this.state.code !== '' && this.state.code !== '') {
             Action.create(this.state, this.handleMessage);
+            this.resetForm();
         } else {
             MessageAlertStore.handleMessage('Name and Code fields are required.');
         }
+    },
+    onRemove: function(id) {
+        MessageAlertStore.showLoadingMessage();
+        Action.delete(id, this.handleMessage);
     },
     componentWillMount: function() {
         if (!this.state.loggedIn) {
@@ -139,7 +144,7 @@ var Dashboard = React.createClass({
                         <div className="dashboard-content-wrapper">
                             <h1 className="text-center">Invitation List</h1>
                             <hr/>
-                            <PaginatedTable records={this.data.records} />
+                            <PaginatedTable records={this.data.records} onRemove={this.onRemove} />
                         </div>
                     </div>
                     <div className="col-md-4">

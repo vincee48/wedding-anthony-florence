@@ -14,20 +14,30 @@ var InvitationStore = Reflux.createStore({
     listenables: [Actions],
 
     onCreate: function(invitation, handler) {
-        var invite = new InvitationObject();
+        var newInvite = new InvitationObject();
 
-        invite.save({
-            code: invitation.code,
-            name: invitation.name,
-            guest: invitation.guest
-        }, {
-            success: function(inv) {
-                handler(false, 'Invitation has been successfully created.');
-            },
-            error: function(inv, error) {
-                handler(true, 'Could not create invitation.');
+        var query = new Parse.Query(InvitationObject);
+        query.equalTo('code', invitation.code).find({
+            success: function(invite) {
+                if (invite.length === 1) {
+                    handler(false, 'Invitation code must be unique!');
+                } else {
+                    newInvite.save({
+                        code: invitation.code,
+                        name: invitation.name,
+                        guest: invitation.guest
+                    }, {
+                        success: function(inv) {
+                            handler(false, 'Invitation has been successfully created.');
+                        },
+                        error: function(inv, error) {
+                            handler(true, 'Could not create invitation.');
+                        }
+                    });
+                }
             }
         });
+
     },
 
     onUpdate: function(invitation) {
@@ -64,6 +74,20 @@ var InvitationStore = Reflux.createStore({
                 }
             },
             error: function(results, error) {
+                MessageAlertStore.genericError();
+            }
+        });
+    },
+
+    onDelete: function(id, handler) {
+        var invite = new InvitationObject();
+
+        invite.set('id', id);
+        invite.destroy({
+            success: function(invite) {
+                handler(false, 'The invitation has been removed.');
+            },
+            error: function(invite, error) {
                 MessageAlertStore.genericError();
             }
         });

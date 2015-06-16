@@ -120,7 +120,6 @@ var Home = React.createClass({
                             <div>
                                 <div className="image-list">
                                     {this.state.images.map(function(image) {
-                                        console.log(image);
                                         return (
                                             <div key={image.url}>
                                                 <ImageWrapper url={image.url} />
