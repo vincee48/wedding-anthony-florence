@@ -43,14 +43,14 @@ var PaginatedTable = React.createClass({
         var display = [];
         if (this.props.records.length > 0) {
             for (var k = 0; k < this.props.records.length; k++) {
-                display.push(<tr key={this.props.records[k].id}>
-                    <td>{ this.props.records[k].name }</td>
-                    <td>{ this.props.records[k].guest }</td>
-                    <td>{ this.props.records[k].code }</td>
-                    <td>{ this.props.records[k].attendees }</td>
-                    <td>{ this.props.records[k].email }</td>
-                    <td>{ this.props.records[k].responded ? 'Yes' : 'No' }</td>
-                    <td><button type="button" className="btn btn-xs btn-danger" id={this.props.records[k].id.objectId} onClick={this.removeRecord}>Remove</button></td>
+                var rec = this.props.records[k];
+                display.push(<tr key={rec.id}>
+                    <td className={rec.attending ? "success" : "danger"}>{ rec.name }</td>
+                    <td className={rec.guestAttending ? "success" : "danger"}>{ rec.guest }</td>
+                    <td>{ rec.code }</td>
+                    <td>{ rec.email }</td>
+                    <td>{ rec.responded ? 'Yes' : 'No' }</td>
+                    <td><button type="button" className="btn btn-xs btn-danger" id={rec.id.objectId} onClick={this.removeRecord}>Remove</button></td>
                 </tr>);
             }
         }
@@ -60,7 +60,7 @@ var PaginatedTable = React.createClass({
 
                 <table className="table table-striped table-bordered">
                     <thead>
-                        <tr><th>Name</th><th>Guest</th><th>Code</th><th>Additional Guests</th><th>Email</th><th>Responded</th><th>Remove</th></tr>
+                        <tr><th>Name</th><th>Guest</th><th>Code</th><th>Email</th><th>Responded</th><th>Remove</th></tr>
                     </thead>
 
                     <tbody>

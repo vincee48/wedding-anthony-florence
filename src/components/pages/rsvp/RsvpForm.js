@@ -49,9 +49,9 @@ var RsvpForm = React.createClass({
 	onDietaryReqChange: function(e) {
 		this.setState({ dietaryReq: e.target.value });
 	},
-    onAttendeesChange: function(e) {
+    /*onAttendeesChange: function(e) {
         this.setState({ attendees: e.target.value });
-    },
+    },*/
 	onSubmit: function(e) {
 		e.preventDefault();
 		var invitation = this.props.invitation;
@@ -67,6 +67,7 @@ var RsvpForm = React.createClass({
 	},
     render: function () {
         var attClass = "btn btn-lg ";
+        //<FormSelect id="accepted" label="Additional Guests" onChange={this.onAttendeesChange} value={this.state.attendees} options={attendeeOptions} />
 
         return (
             <TransitionWrapper>
@@ -90,13 +91,22 @@ var RsvpForm = React.createClass({
                                     <button type="button" className={this.state.attending ? attClass + "btn-default" : attClass + "btn-danger"} onClick={this.notAttending}>Not Attending</button>
                                 </div>
                             </div>
+                            { this.state.guest !== '' ?
                             <div className="col-md-6">
-                                <FormText validate={{required: true}} label="Guest Name" onChange={this.onGuestChange} value={this.state.guest} placeholder="Enter your +1 name" id="guest" />
+                                <div className="row">
+                                    <div className="form-group">
+                                        <label className="control-label col-md-3">Name:</label>
+                                        <div className="col-md-9">
+                                            <span className="pull-left form-control-static">{ this.props.invitation.attributes.guest }</span>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div className="row">
                                     <button type="button" className={this.state.guestAttending ? attClass + "btn-success" : attClass + "btn-default"} onClick={this.guestAttending}>Attending</button>&nbsp;
                                     <button type="button" className={this.state.guestAttending ? attClass + "btn-default" : attClass + "btn-danger"} onClick={this.guestNotAttending}>Not Attending</button>
                                 </div>
                             </div>
+                                : null }
                         </fieldset>
 
                         <fieldset>
@@ -107,7 +117,6 @@ var RsvpForm = React.createClass({
                         <fieldset>
                             <legend>Wedding Preferences</legend>
 
-                            <FormSelect id="accepted" label="Additional Guests" onChange={this.onAttendeesChange} value={this.state.attendees} options={attendeeOptions} />
 
                             <FormTextArea id="dietaryReq" label="Dietary Requirements" onChange={this.onDietaryReqChange} value={this.state.dietaryReq} placeholder="Enter any dietary requirements here" rows="3"/>
 
