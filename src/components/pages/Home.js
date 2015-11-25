@@ -22,14 +22,14 @@ var img12 = require('../../images/engagement/12.jpg');
 var img13 = require('../../images/engagement/13.jpg');
 
 var images = [
-    {
+    /*{
         url: img1,
         opened: false
     },
     {
         url: img2,
         opened: false
-    },
+    },*/
     {
         url: img3,
         opened: false
@@ -38,10 +38,10 @@ var images = [
         url: img4,
         opened: false
     },
-    {
+    /*{
         url: img5,
         opened: false
-    },
+    },*/
     {
         url: img6,
         opened: false
@@ -66,10 +66,10 @@ var images = [
         url: img11,
         opened: false
     },
-    {
+    /*{
         url: img12,
         opened: false
-    }/*,
+    }*//*,
     {
         url: img13,
         opened: false
@@ -95,7 +95,8 @@ var Home = React.createClass({
                                 <p>Join us in our wedding celebration on</p>
                                 <h1>Tuesday December 29, 2015</h1>
                             </div>
-
+							<hr/>
+							<h3 style={{fontWeight: 'bold'}}>RSVPs are closing on the 29th of November</h3>
                         </div>
                     </div>
 

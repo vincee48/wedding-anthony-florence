@@ -52,12 +52,17 @@ var Rsvp = React.createClass({
     },
     render: function () {
 
+		var date = new Date();
+		var expiryDate = new Date('2015/12/01');
+		var showForm = date.valueOf() < expiryDate.valueOf();
+		var display = showForm ? (this.state.found ? <RsvpForm invitation={this.state.invitation} updateInvitation={this.updateInvitation} /> :
+                        <Invitation onSubmit={this.onInvitationSubmit} invitationList={this.data.invitationList} />)
+						: <p className="text-center">Sorry, RSVPs are now closed. Please contact Anthony or Florence.</p>;
         return (
             <div className="container">
 
                 <div className="Rsvp">
-                    {this.state.found ? <RsvpForm invitation={this.state.invitation} updateInvitation={this.updateInvitation} /> :
-                        <Invitation onSubmit={this.onInvitationSubmit} invitationList={this.data.invitationList} />}
+                    { display }
                 </div>
 
             </div>

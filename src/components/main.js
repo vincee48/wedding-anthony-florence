@@ -30,7 +30,7 @@ var Routes = (
 );
 
 // Replace the following with your Parse App ID and Private Key
-Parse.initialize("APP ID", "PRIVATE KEY");
+Parse.initialize("XNRTlNRXrfbOSNNH2UHNMfRB3l5AljlH8GeCtC47", "z4jYjhiRpjjCToig4cVDIr2RsoQmiuwTkDWakIPu");
 
 Router.run(Routes, function (Handler) {
     React.render(<Handler/>, content);

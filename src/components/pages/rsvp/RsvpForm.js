@@ -22,7 +22,7 @@ var RsvpForm = React.createClass({
             attendees: this.props.invitation.attributes.attendees || '0',
             guest: this.props.invitation.attributes.guest || '',
             attending: this.props.invitation.attributes.attending || false,
-            guestAttending: this.props.invitation.attributes.guestAttending || false
+            guestAttending: this.props.invitation.attributes.guestAttending || ''
         };
     },
 	onEmailChange: function(e) {
@@ -37,11 +37,15 @@ var RsvpForm = React.createClass({
     notAttending: function() {
         this.setState({ attending: false });
     },
-    guestAttending: function() {
-        this.setState({ guestAttending: true });
+    guestAttending: function(index) {
+		var guestsAttending = this.state.guestAttending.split(';');
+		guestsAttending[index] = 'Yes';
+        this.setState({ guestAttending: guestsAttending.join(';') });
     },
-    guestNotAttending: function() {
-        this.setState({ guestAttending: false });
+    guestNotAttending: function(index) {		
+		var guestsAttending = this.state.guestAttending.split(';');
+		guestsAttending[index] = 'No';
+        this.setState({ guestAttending: guestsAttending.join(';') });
     },
 	onSpecialNeedsChange: function(e) {
 		this.setState({ specialNeeds: e.target.value });
@@ -49,9 +53,9 @@ var RsvpForm = React.createClass({
 	onDietaryReqChange: function(e) {
 		this.setState({ dietaryReq: e.target.value });
 	},
-    /*onAttendeesChange: function(e) {
+    onAttendeesChange: function(e) {
         this.setState({ attendees: e.target.value });
-    },*/
+    },
 	onSubmit: function(e) {
 		e.preventDefault();
 		var invitation = this.props.invitation;
@@ -67,8 +71,32 @@ var RsvpForm = React.createClass({
 	},
     render: function () {
         var attClass = "btn btn-lg ";
-        //<FormSelect id="accepted" label="Additional Guests" onChange={this.onAttendeesChange} value={this.state.attendees} options={attendeeOptions} />
-
+        //<FormSelect id="attendees" label="Additional Guests" onChange={this.onAttendeesChange} value={this.state.attendees} options={attendeeOptions} />
+		var guests = this.state.guest.split(';');
+		var guestText = [];
+		
+		var guestsAttending = this.state.guestAttending.split(';');
+		if (guests[0]) {
+			for (var i = 0; i < guests.length; i++) {
+				var item = guests[i].trim();
+				
+				guestText.push(<div className="col-md-6" key={item}>
+					<div className="row">
+						<div className="form-group">
+							<label className="control-label col-md-3">Name:</label>
+							<div className="col-md-9">
+								<span className="pull-left form-control-static">{ item }</span>
+							</div>
+						</div>
+					</div>
+					<div className="row">
+						<button type="button" className={guestsAttending[i] === 'Yes' ? attClass + "btn-success" : attClass + "btn-default"} onClick={this.guestAttending.bind(this, i)}>Attending</button>&nbsp;
+						<button type="button" className={guestsAttending[i] === 'No' ? attClass + "btn-danger" : attClass + "btn-default"} onClick={this.guestNotAttending.bind(this, i)}>Not Attending</button>
+					</div>
+				</div>);
+			}
+		}
+		
         return (
             <TransitionWrapper>
                 <div className="row">
@@ -77,36 +105,23 @@ var RsvpForm = React.createClass({
                         <fieldset>
                             <legend>Invitation Information</legend>
 
-                            <div className="col-md-6">
-                                <div className="row">
-                                    <div className="form-group">
-                                        <label className="control-label col-md-3">Name:</label>
-                                        <div className="col-md-9">
-                                            <span className="pull-left form-control-static">{ this.props.invitation.attributes.name }</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="row">
-                                    <button type="button" className={this.state.attending ? attClass + "btn-success" : attClass + "btn-default"} onClick={this.attending}>Attending</button>&nbsp;
-                                    <button type="button" className={this.state.attending ? attClass + "btn-default" : attClass + "btn-danger"} onClick={this.notAttending}>Not Attending</button>
-                                </div>
-                            </div>
-                            { this.state.guest !== '' ?
-                            <div className="col-md-6">
-                                <div className="row">
-                                    <div className="form-group">
-                                        <label className="control-label col-md-3">Name:</label>
-                                        <div className="col-md-9">
-                                            <span className="pull-left form-control-static">{ this.props.invitation.attributes.guest }</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="row">
-                                    <button type="button" className={this.state.guestAttending ? attClass + "btn-success" : attClass + "btn-default"} onClick={this.guestAttending}>Attending</button>&nbsp;
-                                    <button type="button" className={this.state.guestAttending ? attClass + "btn-default" : attClass + "btn-danger"} onClick={this.guestNotAttending}>Not Attending</button>
-                                </div>
-                            </div>
-                                : null }
+							<div className="row" style={{paddingBottom: '1em'}}>
+								<div className="col-md-6">
+									<div className="row">
+										<div className="form-group">
+											<label className="control-label col-md-3">Name:</label>
+											<div className="col-md-9">
+												<span className="pull-left form-control-static">{ this.props.invitation.attributes.name }</span>
+											</div>
+										</div>
+									</div>
+									<div className="row">
+										<button type="button" className={this.state.attending ? attClass + "btn-success" : attClass + "btn-default"} onClick={this.attending}>Attending</button>&nbsp;
+										<button type="button" className={this.state.attending ? attClass + "btn-default" : attClass + "btn-danger"} onClick={this.notAttending}>Not Attending</button>
+									</div>
+								</div>
+								{ guestText !== '' ? guestText : null }
+							</div>
                         </fieldset>
 
                         <fieldset>

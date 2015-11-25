@@ -22,10 +22,22 @@ var InvitationStore = Reflux.createStore({
                 if (invite.length === 1) {
                     handler(false, 'Invitation code must be unique!');
                 } else {
+					var guests = invitation.guest.slice(0).split(';');
+					var cleanGuests = [];
+					var guestsAttending = [];
+					for (var i = 0; i < guests.length; i++) {
+						var guest = guests[i].trim();
+						if (guest !== '') {
+							cleanGuests.push(guest);
+							guestsAttending.push('No');
+						}
+					}
+					
                     newInvite.save({
                         code: invitation.code,
                         name: invitation.name,
-                        guest: invitation.guest
+                        guest: cleanGuests.join(';'),
+						guestAttending: guestsAttending.join(';')
                     }, {
                         success: function(inv) {
                             handler(false, 'Invitation has been successfully created.');
@@ -64,7 +76,7 @@ var InvitationStore = Reflux.createStore({
 
     onGet: function(code) {
         var query = new Parse.Query(InvitationObject);
-        query.equalTo('code', code).find({
+        query.equalTo('code', code.toUpperCase()).find({
             success: function(results) {
                 if (results.length !== 0) {
                     MessageAlertStore.closeMessage();

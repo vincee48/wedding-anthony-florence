@@ -24,7 +24,7 @@ var Dashboard = React.createClass({
 
     observe: function() {
         return {
-            records: (new Parse.Query('Invitation'))
+            records: (new Parse.Query('Invitation')).limit(1000)
         };
     },
     getInitialState: function() {
@@ -56,7 +56,6 @@ var Dashboard = React.createClass({
 
         if (this.state.code !== '' && this.state.code !== '') {
             Action.create(this.state, this.handleMessage);
-            this.resetForm();
         } else {
             MessageAlertStore.handleMessage('Name and Code fields are required.');
         }
@@ -104,7 +103,13 @@ var Dashboard = React.createClass({
                 responded.value++;
                 attendees.value += parseInt(record.attendees);
                 attendees.value += record.attending ? 1 : 0;
-                attendees.value += record.guestAttending ? 1 : 0;
+				
+				var guestsAttending = record.guestAttending.slice(0).split(';');
+				if (guestsAttending) {
+					guestsAttending.forEach(function(g, i) {
+						attendees.value += g === 'Yes' ? 1 : 0;
+					});
+				}
             } else {
                 awaiting.value++;
             }
@@ -153,7 +158,7 @@ var Dashboard = React.createClass({
                             <hr/>
                             <form className="form-horizontal" onSubmit={this.onSubmit}>
                                 <FormText validate={{required: true}} label="Name" onChange={this.onNameChange} value={this.state.name} placeholder="Enter name" id="name" />
-                                <FormText validate={{required: false}} label="Guest" onChange={this.onGuestChange} value={this.state.guest} placeholder="Enter guest name" id="guest" />
+                                <FormText validate={{required: false}} label="Guests" onChange={this.onGuestChange} value={this.state.guest} placeholder="Enter guests name. Separate multiple guests with semicolons." id="guest" />
 
                                 <FormText validate={{required: true}} id="code" label="Code" placeholder="Enter code" value={this.state.code} onChange={this.onCodeChange} />
                                 <button type="submit" className="btn btn-lg btn-primary">

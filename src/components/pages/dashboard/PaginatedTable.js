@@ -8,7 +8,7 @@ var PaginatedTable = React.createClass({
 
     getInitialState: function() {
         return {
-            recordsPerPage: 5,
+            recordsPerPage: 8,
             currentPage: 1
         };
     },
@@ -24,8 +24,7 @@ var PaginatedTable = React.createClass({
         e.preventDefault();
         this.props.onRemove(e.target.id);
     },
-    render: function () {
-
+    render: function () {		
         var numPages = Math.ceil(this.props.records.length / this.state.recordsPerPage);
         var pages = [];
         var data = [];
@@ -39,16 +38,24 @@ var PaginatedTable = React.createClass({
         }
 
         var disablePrev = this.state.currentPage === 1;
-
         var display = [];
-        if (this.props.records.length > 0) {
-            for (var k = 0; k < this.props.records.length; k++) {
-                var rec = this.props.records[k];
+        if (data) {
+            for (var k = 0; k < data.length; k++) {
+                var rec = data[k];
+				
+				var guests = rec.guest ? rec.guest.slice(0).split(';') : [];				
+				var guestsAttending = rec.guestAttending ? rec.guestAttending.slice(0).split(';') : [];	
+				var guestInfo = [];
+				
+				for (var l = 0; l < guests.length; l++) {
+					guestInfo.push(<div>{guests[l] + ' - ' + guestsAttending[l]}</div>);
+				}
+
                 display.push(<tr key={rec.id}>
                     <td className={rec.attending ? "success" : "danger"}>{ rec.name }</td>
-                    <td className={rec.guestAttending ? "success" : "danger"}>{ rec.guest }</td>
+                    <td>{ guestInfo }</td>
                     <td>{ rec.code }</td>
-                    <td>{ rec.email }</td>
+					<td>{ rec.email }</td>
                     <td>{ rec.responded ? 'Yes' : 'No' }</td>
                     <td><button type="button" className="btn btn-xs btn-danger" id={rec.id.objectId} onClick={this.removeRecord}>Remove</button></td>
                 </tr>);
@@ -60,7 +67,7 @@ var PaginatedTable = React.createClass({
 
                 <table className="table table-striped table-bordered">
                     <thead>
-                        <tr><th>Name</th><th>Guest</th><th>Code</th><th>Email</th><th>Responded</th><th>Remove</th></tr>
+                        <tr><th>Name</th><th>Guests</th><th>Code</th><th>Email</th><th>Responded</th><th>Remove</th></tr>
                     </thead>
 
                     <tbody>

@@ -12,7 +12,7 @@ var Footer = React.createClass({
         return (
             <footer className="Footer">
                 <div className="container">
-                    &copy; 2015 Vincent Lo
+                    &copy; 2015 <a href="http://www.vincentsylo.com/">www.vincentsylo.com</a>
                 </div>
             </footer>
         );
